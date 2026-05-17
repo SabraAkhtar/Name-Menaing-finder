@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Name Finder</title>
+  <style>
+
+    body {
+      font-family: Arial;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #667eea;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    #answer {
+      margin-top: 20px;
+      padding: 14px;
+      background: #ebf4ff;
+      border-left: 4px solid #667eea;
+      border-radius: 6px;
+      font-size: 15px;
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Name Meaning Finder</h2>
+    <input type="text" id="nameInput" placeholder="Enter name...">
+    <button onclick="search()">Search</button>
+    <p id="answer"></p>
+  </div>
+
+<script>
+
+  let names = [
+  {"name": "Aisha", "meaning": "Lively, wife of Prophet Muhammad (PBUH)"},
+  {"name": "Ayesha", "meaning": "Lively, wife of Prophet Muhammad (PBUH)"},
+  {"name": "Aiza", "meaning": "Respected, noble"},
+  {"name": "Aleena", "meaning": "Soft, delicate"},
+  {"name": "Alishba", "meaning": "Beautiful, pretty"},
+  {"name": "Alina", "meaning": "Bright, beautiful"},
+  {"name": "Aliya", "meaning": "High, exalted"},
+  {"name": "Amara", "meaning": "Eternal beauty"},
+  {"name": "Amna", "meaning": "Peace"},
+  {"name": "Amina", "meaning": "Trustworthy"},
+  {"name": "Amira", "meaning": "Princess"},
+  {"name": "Anum", "meaning": "Benefit, blessing"},
+  {"name": "Anaya", "meaning": "Care, protection"},
+  {"name": "Aqsa", "meaning": "Farthest"},
+  {"name": "Areeba", "meaning": "Wise, intelligent"},
+  {"name": "Areej", "meaning": "Fragrance"},
+  {"name": "Arisha", "meaning": "Throne of Allah, high status"},
+  {"name": "Asma", "meaning": "Prestige, exalted"},
+  {"name": "Atyia", "meaning": "Gift, present"},
+  {"name": "Aiman", "meaning": "Blessed, fortunate"},
+  {"name": "Bushra", "meaning": "Glad tidings, good news"},
+  {"name": "Bisma", "meaning": "Smile"},
+  {"name": "Bareera", "meaning": "Pious, virtuous"},
+  {"name": "Binish", "meaning": "Clever, wise"},
+  {"name": "Dua", "meaning": "Prayer, supplication"},
+  {"name": "Dilnoza", "meaning": "Heart pleasing"},
+  {"name": "Dur", "meaning": "Pearl"},
+  {"name": "Eman", "meaning": "Faith, belief"},
+  {"name": "Eshal", "meaning": "Flower of paradise"},
+  {"name": "Eshaal", "meaning": "Flower in paradise"},
+  {"name": "Faiza", "meaning": "Success achiever"},
+  {"name": "Farah", "meaning": "Happiness, joy"},
+  {"name": "Fatima", "meaning": "Daughter of Prophet Muhammad (SAW)"},
+  {"name": "Fiza", "meaning": "Breeze, wind"},
+  {"name": "Falak", "meaning": "Star"},
+  {"name": "Firdous", "meaning": "Paradise"},
+  {"name": "Farhana", "meaning": "Happy, joyful"},
+  {"name": "Farwa", "meaning": "Fur, reward"},
+  {"name": "Gul", "meaning": "Flower, rose"},
+  {"name": "Gulnaz", "meaning": "Delicate like flower"},
+  {"name": "Hafsa", "meaning": "Young lioness"},
+  {"name": "Haniya", "meaning": "Happy, pleased"},
+  {"name": "Hareem", "meaning": "Respectable"},
+  {"name": "Hiba", "meaning": "Gift from Allah"},
+  {"name": "Hoorain", "meaning": "Beautiful heavenly woman"},
+  {"name": "Hooria", "meaning": "Angel of paradise"},
+  {"name": "Huda", "meaning": "Guidance"},
+  {"name": "Humaira", "meaning": "Title of Aisha (RA)"},
+  {"name": "Haleema", "meaning": "Gentle, patient"},
+  {"name": "Hamna", "meaning": "Bird of paradise"},
+  {"name": "Iman", "meaning": "Faith"},
+  {"name": "Inaya", "meaning": "Care, protection"},
+  {"name": "Iqra", "meaning": "To read, to recite"},
+  {"name": "Ifra", "meaning": "Happiness"},
+  {"name": "Isha", "meaning": "Night prayer"},
+  {"name": "Jawaria", "meaning": "Bringer of happiness"},
+  {"name": "Javeria", "meaning": "Bringer of happiness"},
+  {"name": "Kainat", "meaning": "Universe"},
+  {"name": "Kaynat", "meaning": "Universe"},
+  {"name": "Khadija", "meaning": "Prophet Muhammad's wife (PBUH)"},
+  {"name": "Kinza", "meaning": "Treasure"},
+  {"name": "Kiran", "meaning": "Ray of light"},
+  {"name": "Laiba", "meaning": "Angel in heaven"},
+  {"name": "Layla", "meaning": "Night"},
+  {"name": "Lina", "meaning": "Tender"},
+  {"name": "Laraib", "meaning": "Without doubt, pure"},
+  {"name": "Lubna", "meaning": "Storax tree, sweet"},
+  {"name": "Madiha", "meaning": "Praiseworthy woman"},
+  {"name": "Maha", "meaning": "Beautiful like moon"},
+  {"name": "Maheen", "meaning": "Moon-like beauty"},
+  {"name": "Mahira", "meaning": "Skilled, expert"},
+  {"name": "Mahnoor", "meaning": "Moonlight"},
+  {"name": "Mahreen", "meaning": "Bright and beautiful"},
+  {"name": "Maira", "meaning": "Light, swift"},
+  {"name": "Malaika", "meaning": "Angel"},
+  {"name": "Malak", "meaning": "Angel"},
+  {"name": "Manahil", "meaning": "Springs of water, source of happiness"},
+  {"name": "Maria", "meaning": "Pure, beloved, star of the sea"},
+  {"name": "Mariam", "meaning": "Mother of Prophet Isa (AS)"},
+  {"name": "Maryam", "meaning": "Mother of Prophet Isa (AS)"},
+  {"name": "Mehak", "meaning": "Fragrance, aroma"},
+  {"name": "Mehreen", "meaning": "Beautiful, kind, talented"},
+  {"name": "Mehwish", "meaning": "Moon, beautiful"},
+  {"name": "Mishal", "meaning": "Torch, light"},
+  {"name": "Maham", "meaning": "Wife of Mughal emperor"},
+  {"name": "Minahil", "meaning": "Water spring, pure"},
+  {"name": "Muskan", "meaning": "Smile"},
+  {"name": "Nadia", "meaning": "Caller"},
+  {"name": "Naila", "meaning": "Achiever"},
+  {"name": "Nazia", "meaning": "Pride"},
+  {"name": "Neha", "meaning": "Rain, love"},
+  {"name": "Nida", "meaning": "Voice, call"},
+  {"name": "Nimra", "meaning": "Pure water"},
+  {"name": "Noor", "meaning": "Light"},
+  {"name": "Nageen", "meaning": "Precious gem, jewel"},
+  {"name": "Nawal", "meaning": "Gift, blessing"},
+  {"name": "Pakeeza", "meaning": "Pure, clean"},
+  {"name": "Qamar", "meaning": "Moon"},
+  {"name": "Rabia", "meaning": "Fourth"},
+  {"name": "Raheela", "meaning": "Traveller, one who journeys"},
+  {"name": "Rida", "meaning": "Contentment"},
+  {"name": "Rimsha", "meaning": "Bouquet of flowers"},
+  {"name": "Rukhsana", "meaning": "Beautiful"},
+  {"name": "Ramsha", "meaning": "Bouquet of flowers"},
+  {"name": "Ruba", "meaning": "Hills, beautiful"},
+  {"name": "Saba", "meaning": "Morning breeze"},
+  {"name": "Sabra", "meaning": "Patience"},
+  {"name": "Sadaf", "meaning": "Seashell"},
+  {"name": "Sadia", "meaning": "Blessed, successful"},
+  {"name": "Samra", "meaning": "Brownish complexion, evening companion"},
+  {"name": "Samreen", "meaning": "Beneficial"},
+  {"name": "Sana", "meaning": "Brightness, praise"},
+  {"name": "Sania", "meaning": "Radiant, bright"},
+  {"name": "Sarah", "meaning": "Wife of Ibrahim (AS)"},
+  {"name": "Sehrish", "meaning": "Sunrise"},
+  {"name": "Shamaila", "meaning": "Beautiful face"},
+  {"name": "Shazia", "meaning": "Rare, princess"},
+  {"name": "Sidra", "meaning": "Tree in heaven"},
+  {"name": "Sobia", "meaning": "Reward for good deeds"},
+  {"name": "Sonia", "meaning": "Wise"},
+  {"name": "Sumaira", "meaning": "Beloved friend"},
+  {"name": "Saman", "meaning": "Jasmine flower"},
+  {"name": "Saniya", "meaning": "Brilliant, radiant"},
+  {"name": "Sehar", "meaning": "Dawn, early morning"},
+  {"name": "Shahida", "meaning": "Witness, martyr"},
+  {"name": "Tanveer", "meaning": "Enlightened, illuminated"},
+  {"name": "Tayyaba", "meaning": "Pure, good natured"},
+  {"name": "Tooba", "meaning": "Tree in paradise"},
+  {"name": "Urwa", "meaning": "Support"},
+  {"name": "Ujala", "meaning": "Light, brightness"},
+  {"name": "Umama", "meaning": "Proper name, necklace"},
+  {"name": "Umaima", "meaning": "Young mother"},
+  {"name": "Wajiha", "meaning": "Distinguished"},
+  {"name": "Warda", "meaning": "Rose, flower"},
+  {"name": "Yasmin", "meaning": "Jasmine"},
+  {"name": "Yusra", "meaning": "Ease"},
+  {"name": "Zahra", "meaning": "Flower"},
+  {"name": "Zainab", "meaning": "Prophet's daughter"},
+  {"name": "Zeenat", "meaning": "Beauty"},
+  {"name": "Zoya", "meaning": "Loving and caring"},
+  {"name": "Zimal", "meaning": "Soft cloth, shawl"},
+  {"name": "Zinnia", "meaning": "Beautiful flower"},
+  {"name": "Zoha", "meaning": "Morning light, sunshine"},
+  {"name": "Zubda", "meaning": "Cream, best part"},
+{"name": "Maleeha", "meaning": "Beautiful, pretty"},
+{"name": "Aqleem", "meaning": "Region,Territory,Climate/Zone"},
+{"name": "Basit", "meaning": "Generous, Open-handed"},
+{"name": "Faisal", "meaning": "Judge, Decisive person"},
+{"name": "Ubaid", "meaning": "Humble servant of Allah "},
+{"name": "Afsha", "meaning": "One who spreads light or beauty,One who reveals or expresses "},
+{"name": "Hajra", "meaning": "A respected and noble woman,to leave or migrate "},
+{"name": "Atiya", "meaning": "Gift ,Blessing from God,Present or grant "}
+
+    
+
+];
+
+  function search() {
+
+    let userInput = document.getElementById("nameInput").value;
+    userInput = userInput.toLowerCase();
+
+    let result = names.find(function(item) {
+      return item.name.toLowerCase() === userInput;
+    });
+
+    let answer = document.getElementById("answer");
+    answer.style.display = "block";
+
+    if (result) {
+      answer.innerText = "Meaning: " + result.meaning;
+    } else {
+      answer.innerText = "Name not found!";
+    }
+
+  }
+
+</script>
+
+</body>
+</html>
